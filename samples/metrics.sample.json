@@ -1,0 +1,11 @@
+{
+  "actions": [
+    {
+      "module": "CatalogModule",
+      "action": "RefreshProductPrices",
+      "avgExecutionsPerRequest": 18,
+      "avgResponseTimeMs": 640,
+      "notes": "Example of a future Service Center/LifeTime metrics export - hand-authored for now."
+    }
+  ]
+}
