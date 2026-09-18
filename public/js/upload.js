@@ -1,7 +1,7 @@
 (function () {
   const tabButtons = document.querySelectorAll(".tab-btn");
   const tabPanels = document.querySelectorAll(".tab-panel");
-  let activeTab = "url";
+  let activeTab = "zip";
 
   tabButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -18,19 +18,12 @@
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const urlInput = document.getElementById("repoUrl");
     const zipInput = document.getElementById("projectZip");
     const pathInput = document.getElementById("localPath");
     const metricsInput = document.getElementById("metricsJson");
 
     const formData = new FormData();
-    if (activeTab === "url") {
-      if (!urlInput.value.trim()) {
-        setStatus("Paste a GitHub repo URL first.", true);
-        return;
-      }
-      formData.append("repoUrl", urlInput.value.trim());
-    } else if (activeTab === "zip") {
+    if (activeTab === "zip") {
       if (!zipInput.files[0]) {
         setStatus("Choose a .zip file first.", true);
         return;
@@ -48,7 +41,7 @@
     }
 
     submitBtn.disabled = true;
-    setStatus(activeTab === "url" ? "Cloning and analyzing repo…" : "Analyzing project…", false);
+    setStatus("Analyzing project…", false);
 
     try {
       const res = await fetch("/api/analyze", { method: "POST", body: formData });

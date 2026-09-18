@@ -14,23 +14,12 @@
   <main>
     <div class="panel">
       <div class="tabs">
-        <button class="tab-btn active" data-tab="url">GitHub URL</button>
-        <button class="tab-btn" data-tab="zip">Upload .zip</button>
+        <button class="tab-btn active" data-tab="zip">Upload .zip</button>
         <button class="tab-btn" data-tab="path">Local folder path</button>
       </div>
 
       <form id="analyze-form">
-        <div class="tab-panel active" data-tab-panel="url">
-          <label for="repoUrl">GitHub repo URL (public repos only)</label>
-          <input
-            type="text"
-            id="repoUrl"
-            name="repoUrl"
-            placeholder="https://github.com/owner/repo or https://github.com/owner/repo/tree/branch/path/to/module"
-          />
-        </div>
-
-        <div class="tab-panel" data-tab-panel="zip">
+        <div class="tab-panel active" data-tab-panel="zip">
           <label for="projectZip">Exported .NET project (.zip)</label>
           <input type="file" id="projectZip" name="projectZip" accept=".zip" />
         </div>

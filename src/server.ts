@@ -3,7 +3,6 @@ import express, { Request, Response } from "express";
 import multer from "multer";
 import { analyzeProject } from "./engine/analyzer";
 import { extractZipToTemp, useLocalFolder } from "./engine/extract";
-import { cloneRepoToTemp } from "./engine/githubUrl";
 import { parseMetricsJson } from "./metrics/metricsLoader";
 import { renderMarkdownReport } from "./report/markdown";
 import { saveRun, getRun } from "./store";
@@ -34,20 +33,15 @@ app.post(
     const zipFile = files?.projectZip?.[0];
     const metricsFile = files?.metricsJson?.[0];
     const localPath = typeof req.body?.localPath === "string" ? req.body.localPath.trim() : "";
-    const repoUrl = typeof req.body?.repoUrl === "string" ? req.body.repoUrl.trim() : "";
 
-    if (!zipFile && !localPath && !repoUrl) {
-      res.status(400).json({ error: "Provide a project zip file, a local folder path, or a GitHub repo URL." });
+    if (!zipFile && !localPath) {
+      res.status(400).json({ error: "Provide either a project zip file or a local folder path." });
       return;
     }
 
     let prepared;
     try {
-      prepared = zipFile
-        ? extractZipToTemp(zipFile.buffer)
-        : repoUrl
-        ? cloneRepoToTemp(repoUrl)
-        : useLocalFolder(localPath);
+      prepared = zipFile ? extractZipToTemp(zipFile.buffer) : useLocalFolder(localPath);
     } catch (err) {
       res.status(400).json({ error: err instanceof Error ? err.message : String(err) });
       return;
@@ -55,7 +49,7 @@ app.post(
 
     try {
       const metrics = metricsFile ? parseMetricsJson(metricsFile.buffer.toString("utf8")) : undefined;
-      const sourceLabel = zipFile ? zipFile.originalname : repoUrl || localPath;
+      const sourceLabel = zipFile ? zipFile.originalname : localPath;
       const result = analyzeProject(prepared.rootDir, sourceLabel, metrics);
       saveRun(result);
       res.json({ runId: result.runId, summary: result.summary });
