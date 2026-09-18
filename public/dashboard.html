@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Findings Dashboard — OutSystems Performance Analyzer</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Findings Dashboard</h1>
+    <p id="source-label"></p>
+  </header>
+
+  <main>
+    <div class="summary-row" id="summary-row"></div>
+
+    <div class="toolbar">
+      <div class="filters" id="severity-filters">
+        <label><input type="checkbox" value="high" checked /> High</label>
+        <label><input type="checkbox" value="medium" checked /> Medium</label>
+        <label><input type="checkbox" value="low" checked /> Low</label>
+      </div>
+      <div>
+        <button class="secondary" id="new-analysis-btn">New analysis</button>
+        <button class="primary" id="export-btn">Export Markdown report</button>
+      </div>
+    </div>
+
+    <div id="results"></div>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

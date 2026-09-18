@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>OutSystems Performance Analyzer</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>OutSystems Performance Analyzer</h1>
+    <p>Static analysis of exported O11/ODC .NET code — N+1 queries, duplicate integration calls, missing timeout/retry, unbounded fetches, cacheable repeated actions.</p>
+  </header>
+
+  <main>
+    <div class="panel">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="zip">Upload .zip</button>
+        <button class="tab-btn" data-tab="path">Local folder path</button>
+      </div>
+
+      <form id="analyze-form">
+        <div class="tab-panel active" data-tab-panel="zip">
+          <label for="projectZip">Exported .NET project (.zip)</label>
+          <input type="file" id="projectZip" name="projectZip" accept=".zip" />
+        </div>
+
+        <div class="tab-panel" data-tab-panel="path">
+          <label for="localPath">Absolute path to the extracted project folder on this machine</label>
+          <input type="text" id="localPath" name="localPath" placeholder="/Users/me/exports/OrderIntegrationModule" />
+        </div>
+
+        <label for="metricsJson">Optional: metrics.json (runtime data to merge in — phase 2 extension point)</label>
+        <input type="file" id="metricsJson" name="metricsJson" accept=".json" />
+
+        <button type="submit" class="primary" id="submit-btn">Analyze</button>
+      </form>
+
+      <div id="status"></div>
+    </div>
+  </main>
+
+  <script src="js/upload.js"></script>
+</body>
+</html>
