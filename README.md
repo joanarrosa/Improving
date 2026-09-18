@@ -24,6 +24,8 @@ good enough to catch the common cases, not a perfect semantic analyzer.
 
 ## Setup
 
+Requires the `git` CLI on your PATH (only needed for the "GitHub URL" input mode below - it shells out to `git clone`).
+
 ```bash
 npm install
 npm run dev      # starts the server on http://localhost:4310 (via tsx, no build step)
@@ -41,8 +43,15 @@ Set `PORT` to change the port.
 ## Using it
 
 1. Open `http://localhost:4310`.
-2. Either upload a `.zip` of the exported .NET project, or type an
-   absolute path to the already-unzipped project folder on this machine.
+2. Pick one input mode:
+   - **GitHub URL** — paste a public repo URL (`https://github.com/owner/repo`)
+     or a "tree" URL naming a branch and/or subfolder
+     (`https://github.com/owner/repo/tree/branch/path/to/module`) and the
+     server shallow-clones it for you. Public repos only - no credentials
+     are ever sent.
+   - **Upload .zip** — the exported .NET project, zipped.
+   - **Local folder path** — an absolute path to an already-unzipped
+     project already on this machine.
 3. Optionally attach a `metrics.json` (see **Runtime metrics** below).
 4. Click **Analyze** → you're taken to the dashboard, findings grouped by
    module → screen/action, each with a severity tag.
@@ -50,8 +59,9 @@ Set `PORT` to change the port.
    current findings as a `.md` file.
 
 A synthetic sample project that deliberately trips every rule lives in
-`samples/sample-export/` — point the "local folder path" field at it to
-see the tool work without needing a real export handy.
+`samples/sample-export/` in this repo. Try it via the GitHub URL field:
+`https://github.com/joanarrosa/Improving/tree/claude/affectionate-ptolemy-wvad9y/samples/sample-export`
+(or via "local folder path" if you already have this repo cloned).
 
 ## What it checks
 
@@ -88,6 +98,7 @@ src/
     index.ts                 rule registry
   engine/
     extract.ts              zip extraction / local folder walk
+    githubUrl.ts             GitHub URL parsing + shallow clone to a temp dir
     deriveNames.ts           module & screen/action name heuristics
     grouping.ts              group findings by module -> screen, build summary
     analyzer.ts               orchestrates: walk files -> run rules -> group -> return result
